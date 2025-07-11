@@ -51,10 +51,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../../Analytics/index.html">
-                        <i class="bi bi-graph-up"></i>
-                        <p>Analytics</p>
-                    </a>
+                <a href="{{ route('Analytics.show', ['id' => 0]) }}">
+                    <i class="bi bi-graph-up"></i>
+                    <p>Analytics</p>
+                </a>
                 </li>
                 <li>
                     <a href="{{route('UserViolation.show',['id'=>Auth()->id()])}}">

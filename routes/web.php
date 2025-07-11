@@ -30,6 +30,9 @@ Route::group(['middleware' => ['role:user']], function() {
     Route::get('/report', [UserController::class, 'ReportUpload'] )->name('report.upload');
     Route::post('/report/store', [UserController::class, 'ReportStore'] )->name('report.store');
     Route::get('/user/{id}/violations', [UserController::class, 'UserViolation_show'] )->name('UserViolation.show');
+    Route::get('/radar/{id}/analytics', [UserController::class, 'AnalyticsShow'] )->name('Analytics.show');
+    Route::POST('/radar/{id}/ProcessAnalytics', [UserController::class, 'AnalyticsProcess'] )->name('Analytics.process');
+
 });
 
 //********************************************************************************************************* */

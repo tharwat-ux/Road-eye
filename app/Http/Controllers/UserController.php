@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\HTTP;
 
 
 class UserController extends Controller
@@ -172,5 +173,44 @@ class UserController extends Controller
 
 
     
+
+
+    public function AnalyticsShow ($id,Request $request)
+    {
+        
+        $radars = Radar::all();
+
+       
+        if ($id)
+        {    
+            $CongestionData = request('CongestionData');
+            return view('User/Analytics', ['radars' =>$radars, 'CongestionData'=>$CongestionData]) ; }
+        else
+        {
+            return view('User/Analytics', ['radars' =>$radars]) ; }   
+    }
+
     
+    public function AnalyticsProcess ($id)
+    {
+     try {
+            // 🔁 Send an empty POST (no user input needed anymore)
+            $response = Http::post('http://127.0.0.1:5000/predict');
+
+            if ($response->successful() && isset($response['congestion'])) {
+                return redirect()->route('Analytics.show', [
+                'id' => $id,        
+                'CongestionData'=>$response['congestion']
+            ]);
+            } else {
+                return back()->with('error', 'فشل في استلام البيانات من API.');
+            }
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'خطأ في الاتصال بـ Flask: ' . $e->getMessage());
+        }    
+    }  
 }
+    
+
+    
